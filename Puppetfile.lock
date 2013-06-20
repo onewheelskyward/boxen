@@ -59,6 +59,16 @@ GITHUBTARBALL
     inifile (0.9.0)
 
 GITHUBTARBALL
+  remote: onewheelskyward/puppet-phpstorm
+  specs:
+    phpstorm (6.0.2)
+
+GITHUBTARBALL
+  remote: onewheelskyward/puppet-rubymine
+  specs:
+    rubymine (5.4.2)
+
+GITHUBTARBALL
   remote: puppetlabs/puppetlabs-stdlib
   specs:
     stdlib (4.0.2)
@@ -73,8 +83,10 @@ DEPENDENCIES
   inifile (= 0.9.0)
   nginx (= 1.4.0)
   nodejs (= 2.2.0)
+  phpstorm (= 6.0.2)
   repository (= 2.0.2)
   ruby (= 4.1.0)
+  rubymine (= 5.4.2)
   stdlib (= 4.0.2)
   sudo (= 1.0.0)
 
