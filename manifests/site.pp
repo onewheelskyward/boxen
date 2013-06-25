@@ -68,6 +68,8 @@ node default {
   include mongodb
   include redis
   include dropbox
+  include sublime_text_2
+  include alfred
 
   # do not fail if FDE is not enabled
 #  if $::root_encrypted == 'no' {
