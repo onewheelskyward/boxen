@@ -40,6 +40,7 @@ github "redis",	     "1.0.0"
 # Optional/custom modules. There are tons available at
 # https://github.com/boxen.
 
+github "sublime_text_2", "2.0.1", :repo => "onewheelskyward/puppet-sublime_text_2"
 github "dropbox",   "2.0.5", :repo => "onewheelskyward/puppet-dropbox"
 github "rubymine",  "5.4.2", :repo => "onewheelskyward/puppet-rubymine"
 github "phpstorm",  "6.0.2", :repo => "onewheelskyward/puppet-phpstorm"

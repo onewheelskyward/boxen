@@ -104,6 +104,11 @@ GITHUBTARBALL
     rubymine (5.4.2)
 
 GITHUBTARBALL
+  remote: onewheelskyward/puppet-sublime_text_2
+  specs:
+    sublime_text_2 (2.0.1)
+
+GITHUBTARBALL
   remote: puppetlabs/puppetlabs-stdlib
   specs:
     stdlib (4.0.2)
@@ -129,6 +134,7 @@ DEPENDENCIES
   ruby (= 4.1.0)
   rubymine (= 5.4.2)
   stdlib (= 4.0.2)
+  sublime_text_2 (= 2.0.1)
   sudo (= 1.0.0)
   sysctl (= 1.0.0)
 
