@@ -67,6 +67,7 @@ node default {
   include postgresql
   include mongodb
   include redis
+  include dropbox
 
   # do not fail if FDE is not enabled
 #  if $::root_encrypted == 'no' {

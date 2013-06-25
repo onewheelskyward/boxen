@@ -89,6 +89,11 @@ GITHUBTARBALL
     inifile (0.9.0)
 
 GITHUBTARBALL
+  remote: onewheelskyward/puppet-dropbox
+  specs:
+    dropbox (2.0.5)
+
+GITHUBTARBALL
   remote: onewheelskyward/puppet-phpstorm
   specs:
     phpstorm (6.0.2)
@@ -106,6 +111,7 @@ GITHUBTARBALL
 DEPENDENCIES
   boxen (= 2.1.0)
   dnsmasq (= 1.0.0)
+  dropbox (= 2.0.5)
   gcc (= 1.0.0)
   git (= 1.2.2)
   homebrew (= 1.1.2)
