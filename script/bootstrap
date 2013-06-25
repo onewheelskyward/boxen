@@ -18,4 +18,4 @@ rm -rf .librarian/puppet/config
 # Bundle install unless we're already up to date.
 
 export PATH=$(pwd)/vendor/shims:$PATH
-/usr/bin/bundle install --binstubs bin --path .bundle --quiet "$@"
+/usr/bin/bundle install --binstubs bin --path .bundle "$@"
