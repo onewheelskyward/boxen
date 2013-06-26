@@ -58,6 +58,8 @@ node default {
   include hub
   include nginx
 
+  include property_list_key
+  include osx
   include phpstorm
   include rubymine
 
@@ -70,6 +72,7 @@ node default {
   include dropbox
   include sublime_text_2
   include alfred
+  include fish
 
   # do not fail if FDE is not enabled
 #  if $::root_encrypted == 'no' {

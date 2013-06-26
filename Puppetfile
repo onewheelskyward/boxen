@@ -36,10 +36,13 @@ github "postgresql", "1.0.1"
 github "sysctl",     "1.0.0"
 github "mongodb",    "1.0.4"
 github "redis",	     "1.0.0"
+github "property_list_key", "0.1.0"
+github "osx",        "1.3.0"
 
 # Optional/custom modules. There are tons available at
 # https://github.com/boxen.
 
+github "fish",	   "1.0.0", :repo => "onewheelskyward/puppet-fish"
 github "alfred",    "2.0.5", :repo => "onewheelskyward/puppet-alfred"
 github "sublime_text_2", "2.0.1", :repo => "onewheelskyward/puppet-sublime_text_2"
 github "dropbox",   "2.0.5", :repo => "onewheelskyward/puppet-dropbox"
