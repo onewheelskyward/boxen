@@ -84,17 +84,32 @@ package { 'Textual':
 	source => 'http://www.codeux.com/textual/private/downloads/builds/trial-versions/Textual-Trial-g441bee9.zip',
 	provider => compressed_app
 }
-  include iterm2::dev
+package { 'Sublime Text 3 build 3047':
+  ensure => installed,
+  source => 'http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%20Build%203047.dmg',
+  provider => appdmg
+}
+package { 'Dropbox':
+  ensure => installed,
+  source => 'https://www.dropbox.com/download?plat=mac',
+  provider => appdmg
+}
+package { 'Alfred':
+  ensure => installed,
+  source => 'http://cachefly.alfredapp.com/Alfred_2.0.6_203.zip',
+  provider => compressed_app
+}
+package { 'iTerm2':
+  ensure => installed,
+  source => 'http://www.iterm2.com/downloads/beta/iTerm2-1_0_0_20130624.zip',
+  provider => compressed_app
+}
 
   include mysql
   include postgresql
   include mongodb
   include redis
-  include dropbox
-  include sublime_text_2
-  include alfred
   include fish
-#  include textual
 
   # do not fail if FDE is not enabled
 #  if $::root_encrypted == 'no' {
