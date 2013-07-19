@@ -68,6 +68,16 @@ node default {
 #    source   => 'https://launchpadlibrarian.net/98903476/gephi-0.8.1-beta.dmg',
 #    provider => appdmg,
 #  }
+
+  package {
+    [  'mysql',
+      'postgresql',
+      'mongodb',
+      'redis',
+      'fish',
+    ]:
+  }
+
 package { 'RubyMine':
 	ensure => installed,
 	source => 'http://download.jetbrains.com/ruby/RubyMine-5.4.3.dmg',
@@ -91,7 +101,7 @@ package { 'Sublime Text 3 build 3047':
 }
 package { 'Dropbox':
   ensure => installed,
-  source => 'https://www.dropbox.com/download?plat=mac',
+  source => 'https://d1ilhw0800yew8.cloudfront.net/client/Dropbox%202.0.26.dmg',
   provider => appdmg
 }
 package { 'Alfred':
@@ -104,12 +114,6 @@ package { 'iTerm2':
   source => 'http://www.iterm2.com/downloads/beta/iTerm2-1_0_0_20130624.zip',
   provider => compressed_app
 }
-
-  include mysql
-  include postgresql
-  include mongodb
-  include redis
-  include fish
 
   # do not fail if FDE is not enabled
 #  if $::root_encrypted == 'no' {
