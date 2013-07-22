@@ -58,19 +58,35 @@ node default {
   include hub
   include nginx
 
+  # node versions
+#  include nodejs::v0_4
+#  include nodejs::v0_6
+#  include nodejs::v0_8
+  include nodejs::v0_10
+
+  # default ruby versions
+#  include ruby::1_9_3
+  include ruby::2_0_0
+
+  # common, useful packages
+  package {
+    [
+      'ack',
+      'findutils',
+      'gnu-tar'
+    ]:
+  }
+
+  file { "${boxen::config::srcdir}/our-boxen":
+    ensure => link,
+    target => $boxen::config::repodir
+  }
+
 #  include property_list_key
 #  include osx
-#  include phpstorm
-#  include rubymine
-
-#  package { 'Gephi':
-#    ensure   => installed,
-#    source   => 'https://launchpadlibrarian.net/98903476/gephi-0.8.1-beta.dmg',
-#    provider => appdmg,
-#  }
 
   package {
-    [  'mysql',
+    [ 'mysql',
       'postgresql',
       'mongodb',
       'redis',
@@ -83,7 +99,11 @@ package { 'RubyMine':
 	source => 'http://download.jetbrains.com/ruby/RubyMine-5.4.3.dmg',
 	provider => appdmg
 }
-
+package { 'PHPStorm EAP':
+  ensure => installed,
+  source => 'http://download.jetbrains.com/webide/PhpStorm-EAP-130.1293.dmg',
+  provider => appdmg
+}
 package { 'PhpStorm':
 	ensure => installed,
 	source => 'http://download.jetbrains.com/webide/PhpStorm-6.0.3.dmg',
@@ -119,30 +139,6 @@ package { 'iTerm2':
 #  if $::root_encrypted == 'no' {
 #    fail('Please enable full disk encryption and try again')
 #  }
-
-  # node versions
-  include nodejs::v0_4
-  include nodejs::v0_6
-  include nodejs::v0_8
-  include nodejs::v0_10
-
-  # default ruby versions
-  include ruby::1_9_3
-  include ruby::2_0_0
-
-  # common, useful packages
-  package {
-    [
-      'ack',
-      'findutils',
-      'gnu-tar'
-    ]:
-  }
-
-  file { "${boxen::config::srcdir}/our-boxen":
-    ensure => link,
-    target => $boxen::config::repodir
-  }
   file { "/Users/akreps/src/black-pepper":
       ensure => "directory",
   }
@@ -163,6 +159,21 @@ package { 'iTerm2':
       path     => '/Users/akreps/src/athletepath',
       provider => 'git'
   }
+
+  repository {
+    'dotfiles':
+      source   => 'git@github.com:onewheelskyward/dotfiles',
+      path     => '/Users/akreps/src/dotfiles',
+      provider => 'git'
+  }
+  repository {
+    'browse':
+      source   => 'git@github.com:primatelabs/browse',
+      path     => '/Users/akreps/src/browse',
+      provider => 'git'
+  }
+
+
 
 #  exec {"load-repos":
 #    command =>"git clone git@github.com:Athletepath/black-pepper /Users/akreps/",
