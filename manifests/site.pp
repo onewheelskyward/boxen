@@ -91,6 +91,7 @@ node default {
       'mongodb',
       'redis',
       'fish',
+      'php53',
     ]:
   }
 
@@ -171,6 +172,44 @@ package { 'iTerm2':
       source   => 'git@github.com:primatelabs/browse',
       path     => '/Users/akreps/src/browse',
       provider => 'git'
+  }
+  osx_chsh { $::luser:
+    shell   => '/opt/boxen/homebrew/bin/fish',
+    require => Package['fish'],
+  }
+
+  file_line { 'add fish to /etc/shells':
+    path    => '/etc/shells',
+    line    => "${boxen::config::homebrewdir}/bin/fish",
+    require => Package['fish'],
+  }
+  exec { 'start located':
+    command => 'launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist',
+    user => root
+  }
+  file { '/usr/local/etc/nginx.conf':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/nginx.conf",
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
+  file { '/usr/local/etc/php/5.3/php.ini':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/php.ini",
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
+  file { '/usr/local/etc/php/5.3/php-fpm.conf':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/php-fpm.conf",
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
+  file { '/usr/local/etc/php/5.3/conf.d/ext-xdebug.ini':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/ext-xdebug.ini",
+    require => Repository["/Users/akreps/src/dotfiles"],
   }
 
 
