@@ -51,6 +51,28 @@ Service {
 
 Homebrew::Formula <| |> -> Package <| |>
 
+  # Homebrew::tap to get dupes
+  define homebrew::tap (
+    $ensure = present,
+  ) {
+    if $ensure == 'present' {
+      exec { "homebrew_tap_${name}":
+        command => "brew tap ${name}",
+        unless  => "brew tap | grep ${name}",
+      }
+    } else {
+      exec { "homebrew_untap_${name}":
+        command => "brew untap ${name}",
+        onlyif  => "brew tap | grep ${name}",
+      }
+    }
+  }
+ 
+  # Homebrew dupes to get rsync 3
+  homebrew::tap { 'homebrew/dupes': }
+  # Homebrew dupes to get rsync 3
+  homebrew::tap { 'josegonzalez/php': }
+
 node default {
   # core modules, needed for most things
   include dnsmasq
@@ -85,13 +107,24 @@ node default {
 #  include property_list_key
 #  include osx
 
+#  homebrew::tap { 'josegonzalez/php':
+#     source => 'https://github.com/josegonzalez/homebrew-php',
+#   }
+ 
+  # Rsync 3 from homebrew dupes
+  package { 'homebrew/dupes/rsync':
+    require => Homebrew::Tap['homebrew/dupes']
+  }
+
   package {
     [ 'mysql',
       'postgresql',
       'mongodb',
       'redis',
       'fish',
-      'php53',
+      'php53 --with-pgsql --with-fpm',
+      'php53-xdebug',
+      'php53-intl',
     ]:
   }
 
@@ -187,25 +220,25 @@ package { 'iTerm2':
     command => 'launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist',
     user => root
   }
-  file { '/usr/local/etc/nginx.conf':
+  file { '/opt/boxen/homebrew/etc/nginx.conf':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/nginx.conf",
     require => Repository["/Users/akreps/src/dotfiles"],
   }
-  file { '/usr/local/etc/php/5.3/php.ini':
+  file { '/opt/boxen/homebrew/etc/php/5.3/php.ini':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/php.ini",
     require => Repository["/Users/akreps/src/dotfiles"],
   }
-  file { '/usr/local/etc/php/5.3/php-fpm.conf':
+  file { '/opt/boxen/homebrew/etc/php/5.3/php-fpm.conf':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/php-fpm.conf",
     require => Repository["/Users/akreps/src/dotfiles"],
   }
-  file { '/usr/local/etc/php/5.3/conf.d/ext-xdebug.ini':
+  file { '/opt/boxen/homebrew/etc/php/5.3/ext-xdebug.ini':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/ext-xdebug.ini",
