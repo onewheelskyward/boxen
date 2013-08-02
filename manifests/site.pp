@@ -244,6 +244,18 @@ package { 'iTerm2':
     target  => "/Users/akreps/src/dotfiles/ext-xdebug.ini",
     require => Repository["/Users/akreps/src/dotfiles"],
   }
+  file { '/Users/akreps/.config/fish/config.fish':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/config.fish",
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
+  file { '/Users/akreps/.config/fish/functions':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/functions",
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
 
 
 
