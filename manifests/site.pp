@@ -125,6 +125,7 @@ node default {
       'php53 --with-pgsql --with-fpm',
       'php53-xdebug',
       'php53-intl',
+      'wget'
     ]:
   }
 
@@ -167,6 +168,22 @@ package { 'iTerm2':
   ensure => installed,
   source => 'http://www.iterm2.com/downloads/beta/iTerm2-1_0_0_20130624.zip',
   provider => compressed_app
+}
+
+exec { 'postgres init':
+  command => 'initdb /opt/boxen/homebrew/var/postgres -E utf8',
+  user => akreps,
+  require => Package['postgresql']
+}
+exec { 'postgres plist symlinks':
+  command => 'ln -sfv /opt/boxen/homebrew/opt/postgresql/*.plist ~/Library/LaunchAgents',
+  user => akreps,
+  require => Package['postgresql']
+}
+exec { 'postgres start':
+  command => 'launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist',
+  user => akreps,
+  require => Package['postgresql']
 }
 
   # do not fail if FDE is not enabled
@@ -257,8 +274,41 @@ package { 'iTerm2':
     require => Repository["/Users/akreps/src/dotfiles"],
   }
 
+## Athletepath Setup
+  file { '/Users/akreps/src/Athletepath/app/cache':
+    ensure => directory,
+  }
+  file { '/Users/akreps/src/Athletepath/app/log':
+    ensure => directory,
+  }
+#chmod a+w app/cache/ app/logs/
+#chmod a+x app/console
+  exec { 'Athletepath: create parameters.yml file':
+    command => 'cp /Users/akreps/src/Athletepath/app/config/parameters.yml.dist /Users/akreps/src/Athletepath/app/config/parameters.yml',
+    user => akreps
+  }
+  exec { 'get_composer':
+    command => 'cd /Users/akreps/src/Athletepath ; curl -Ss http://getcomposer.org/installer | php',
+    user => akreps
+    }
+#  exec { 'run composer':
+#    command => 'cd /Users/akreps/src/Athletepath ; php composer.phar',
+#    user => akreps
+#    }
+  exec { 'run composer install':
+    command => 'cd /Users/akreps/src/Athletepath ; php composer.phar install --optimize-autoloader',
+    user => akreps,
+    require => Exec["get_composer"]
+  }
 
-
+  exec { 'create athletepath db':
+    command => 'createdb athletepath',
+    user => akreps
+  }  
+  exec { 'echo sandbox.athletepath.com':
+    command => 'echo 127.0.0.1 sandbox.athletepath.com >> /etc/hosts',
+    user => root
+  }
 #  exec {"load-repos":
 #    command =>"git clone git@github.com:Athletepath/black-pepper /Users/akreps/",
 #    require => Package["git-core"],
