@@ -247,20 +247,20 @@ exec { 'postgres start':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/php.ini",
-    require => Package['php53']
+    require => Package['php53 --with-pgsql --with-fpm']
   }
   file { '/opt/boxen/homebrew/etc/php/5.3/php-fpm.conf':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/php-fpm.conf",
-    require => Package['php53']
+    require => Package['php53 --with-pgsql --with-fpm']
   }
   file { '/opt/boxen/homebrew/etc/php/5.3/ext-xdebug.ini':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/ext-xdebug.ini",
 #    require => Repository["/Users/akreps/src/dotfiles"],
-    require => Package['php53']
+    require => Package['php53 --with-pgsql --with-fpm']
   }
   file { '/Users/akreps/.config/fish':
     ensure => directory,
