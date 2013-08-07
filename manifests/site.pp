@@ -264,7 +264,7 @@ exec { 'postgres start':
     require => Repository["/Users/akreps/src/dotfiles"],
     require => Package['php53']
   }
-  file { '/Users/akreps/.config/fish'
+  file { '/Users/akreps/.config/fish':
     ensure => directory,
     mode => '0755'
   }
