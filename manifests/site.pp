@@ -178,12 +178,12 @@ exec { 'postgres init':
 exec { 'postgres plist symlinks':
   command => 'ln -sfv /opt/boxen/homebrew/opt/postgresql/*.plist ~/Library/LaunchAgents',
   user => akreps,
-  require => Package['postgresql']
+  require => Exec['postgres init']
 }
 exec { 'postgres start':
   command => 'launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist',
   user => akreps,
-  require => Package['postgresql']
+  require => Exec['postgres plist symlinks']
 }
 
   # do not fail if FDE is not enabled
@@ -248,30 +248,39 @@ exec { 'postgres start':
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/php.ini",
     require => Repository["/Users/akreps/src/dotfiles"],
+    require => Package['php53']
   }
   file { '/opt/boxen/homebrew/etc/php/5.3/php-fpm.conf':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/php-fpm.conf",
     require => Repository["/Users/akreps/src/dotfiles"],
+    require => Package['php53']
   }
   file { '/opt/boxen/homebrew/etc/php/5.3/ext-xdebug.ini':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/ext-xdebug.ini",
     require => Repository["/Users/akreps/src/dotfiles"],
+    require => Package['php53']
+  }
+  file { '/Users/akreps/.config/fish'
+    ensure => directory,
+    mode => '0755'
   }
   file { '/Users/akreps/.config/fish/config.fish':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/config.fish",
     require => Repository["/Users/akreps/src/dotfiles"],
+    require => File['/Users/akreps/.config/fish']
   }
   file { '/Users/akreps/.config/fish/functions':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/functions",
     require => Repository["/Users/akreps/src/dotfiles"],
+    require => File['/Users/akreps/.config/fish']
   }
 
 ## Athletepath Setup
