@@ -282,28 +282,32 @@ exec { 'postgres start':
   }
 
 ## Athletepath Setup
-  file { '/Users/akreps/src/Athletepath/app/cache':
+  file { '/Users/akreps/src/athletepath/app/cache':
     ensure => directory,
+    require => Repository['/Users/akreps/src/athletepath']
   }
-  file { '/Users/akreps/src/Athletepath/app/log':
+  file { '/Users/akreps/src/athletepath/app/log':
     ensure => directory,
+    require => Repository['/Users/akreps/src/athletepath']
   }
 #chmod a+w app/cache/ app/logs/
 #chmod a+x app/console
   exec { 'Athletepath: create parameters.yml file':
-    command => 'cp /Users/akreps/src/Athletepath/app/config/parameters.yml.dist /Users/akreps/src/Athletepath/app/config/parameters.yml',
-    user => akreps
+    command => 'cp /Users/akreps/src/athletepath/app/config/parameters.yml.dist /Users/akreps/src/athletepath/app/config/parameters.yml',
+    user => akreps, 
+   require => Repository['/Users/akreps/src/athletepath']
   }
   exec { 'get_composer':
-    command => 'cd /Users/akreps/src/Athletepath ; curl -Ss http://getcomposer.org/installer | php',
-    user => akreps
+    command => 'cd /Users/akreps/src/athletepath ; curl -Ss http://getcomposer.org/installer | php',
+    user => akreps,
+    require => Package['php53 --with-pgsql --with-fpm']
     }
 #  exec { 'run composer':
-#    command => 'cd /Users/akreps/src/Athletepath ; php composer.phar',
+#    command => 'cd /Users/akreps/src/athletepath ; php composer.phar',
 #    user => akreps
 #    }
   exec { 'run composer install':
-    command => 'cd /Users/akreps/src/Athletepath ; php composer.phar install --optimize-autoloader',
+    command => 'cd /Users/akreps/src/athletepath ; php composer.phar install --optimize-autoloader',
     user => akreps,
     require => Exec["get_composer"]
   }
