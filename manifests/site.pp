@@ -134,11 +134,11 @@ package { 'RubyMine':
 	source => 'http://download.jetbrains.com/ruby/RubyMine-5.4.3.dmg',
 	provider => appdmg
 }
-package { 'PHPStorm EAP':
-  ensure => installed,
-  source => 'http://download.jetbrains.com/webide/PhpStorm-EAP-130.1293.dmg',
-  provider => appdmg
-}
+#package { 'PHPStorm EAP':
+#  ensure => installed,
+#  source => 'http://download.jetbrains.com/webide/PhpStorm-EAP-130.1293.dmg',
+#  provider => appdmg
+#}
 package { 'PhpStorm':
 	ensure => installed,
 	source => 'http://download.jetbrains.com/webide/PhpStorm-6.0.3.dmg',
