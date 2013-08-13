@@ -295,7 +295,7 @@ exec { 'postgres start':
   file { '/opt/boxen/homebrew/etc/nginx/server.crt':
     ensure  => link,
     mode    => '0755',
-    target  => "/Users/akreps/src/dotfiles/server.crt,
+    target  => "/Users/akreps/src/dotfiles/server.crt",
     require => Repository["/Users/akreps/src/dotfiles"],
   }
   file { '/opt/boxen/homebrew/etc/nginx/server.key':
