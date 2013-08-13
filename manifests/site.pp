@@ -125,7 +125,10 @@ node default {
       'php53 --with-pgsql --with-fpm',
       'php53-xdebug',
       'php53-intl',
-      'wget'
+      'wget',
+      'pbzip2',
+      'rbenv',
+      'ruby-build',
     ]:
   }
 
@@ -139,6 +142,7 @@ package { 'RubyMine':
 #  source => 'http://download.jetbrains.com/webide/PhpStorm-EAP-130.1293.dmg',
 #  provider => appdmg
 #}
+
 package { 'PhpStorm':
 	ensure => installed,
 	source => 'http://download.jetbrains.com/webide/PhpStorm-6.0.3.dmg',
@@ -169,6 +173,44 @@ package { 'iTerm2':
   source => 'http://www.iterm2.com/downloads/beta/iTerm2-1_0_0_20130624.zip',
   provider => compressed_app
 }
+package { 'iStat Menus':
+  ensure => installed,
+  source => 'http://s3.amazonaws.com/bjango/files/istatmenus4/istatmenus4.06.zip',
+  provider => compressed_app
+}
+package { 'OpenOffice 3.4.1':
+  ensure => installed,
+  source => 'http://downloads.sourceforge.net/project/openofficeorg.mirror/stable/3.4.1/Apache_OpenOffice_incubating_3.4.1_MacOS_x86_install_en-US.dmg',
+  provider => compressed_app
+}
+package { 'Adium':
+  ensure => installed,
+  source => 'http://downloads.sourceforge.net/project/adium/Adium_1.5.7.dmg',
+  provider => appdmg
+}
+package { 'Rdio':
+  ensure => installed,
+  source => 'http://www.rdio.com/media/static/desktop/mac/Rdio.dmg',
+  provider => appdmg
+}
+package { 'Little Snitch':
+  ensure => installed,
+  source => 'http://www.obdev.at/downloads/LittleSnitch/LittleSnitch-3.1.1.dmg',
+  provider => appdmg
+}
+exec { 'SHOW ALL FILES':
+  command => 'defaults write com.apple.Finder AppleShowAllFiles YES',
+  user => akreps
+}
+exec { 'git setup':
+  command => 'git config --global user.name "Andrew Kreps"',
+#  user => akreps
+}
+exec { 'git setup2':
+  command => 'git config --global user.email andrew.kreps@gmail.com',
+#  user => akreps
+}
+    
 
 exec { 'postgres init':
   command => 'initdb /opt/boxen/homebrew/var/postgres -E utf8',
@@ -205,6 +247,13 @@ exec { 'postgres start':
   }
 
   repository {
+    'square peg':
+      source   => 'git@github.com:Athletepath/square-peg',
+      path     => '/Users/akreps/src/square-peg',
+      provider => 'git'
+  }
+
+  repository {
     'athletepath':
       source   => 'git@github.com:Athletepath/Athletepath',
       path     => '/Users/akreps/src/athletepath',
@@ -237,10 +286,22 @@ exec { 'postgres start':
     command => 'launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist',
     user => root
   }
-  file { '/opt/boxen/homebrew/etc/nginx.conf':
+  file { '/opt/boxen/homebrew/etc/nginx/nginx.conf':
     ensure  => link,
     mode    => '0755',
     target  => "/Users/akreps/src/dotfiles/nginx.conf",
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
+  file { '/opt/boxen/homebrew/etc/nginx/server.crt':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/server.crt,
+    require => Repository["/Users/akreps/src/dotfiles"],
+  }
+  file { '/opt/boxen/homebrew/etc/nginx/server.key':
+    ensure  => link,
+    mode    => '0755',
+    target  => "/Users/akreps/src/dotfiles/server.key",
     require => Repository["/Users/akreps/src/dotfiles"],
   }
   file { '/opt/boxen/homebrew/etc/php/5.3/php.ini':
